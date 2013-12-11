@@ -1,4 +1,15 @@
-# API Client Usage
+# Racktables API
+
+[![Build Status](https://travis-ci.org/xing/racktables_api.png?branch=master)](https://travis-ci.org/xing/racktables_api)
+
+REST access to racktables objects. With this REST api you can request your racktables objects in JSON format to use them in your scripts. You can generate DNS or DHCP configs right from your Racktables data.
+
+You can find some examples, what we are doing with this in Falks ( @fstern ) [slides](http://www.slideshare.net/falkstern/racktables-osdc) - currently in german only
+
+## INSTALL
+Please refer to the [INSTALL.md](https://github.com/xing/racktables_api/blob/master/INSTALL.md)
+
+## API Client Usage
 
 First, generate a key:secret pair if you haven't done yet:
 
@@ -10,16 +21,16 @@ My key:secret pair is stored in my .bashrc in a variable $RTUSER and I'm using a
 
 To parse the JSON output on the CLI, I recommend the usage of [jq](http://stedolan.github.io/jq/).
 
-## Examples
+### Examples
 
-### Getting a list of real servers with hostname \*build\*
+#### Getting a list of real servers with hostname \*build\*
 
 	$ rtcurl $RTUSER 'https://racktables-api.example.com/object?type._match=Server&attributes.FQDN._match=build' | jq '.[] | .name'
 	"buildhost-1.datacenter"
 	"deb-build-1.datacenter"
 	"qabuild-1.office"
 
-### Getting a list of virtual servers with hostname \*build\*
+#### Getting a list of virtual servers with hostname \*build\*
 
 	$ rtcurl $RTUSER 'https://racktables-api.example.com/object?type._match=VM&attributes.FQDN._match=build' | jq '.[] | .name'
 	"qabuild-1.datacenter"
@@ -29,7 +40,7 @@ To parse the JSON output on the CLI, I recommend the usage of [jq](http://stedol
 	"opsbuild-2.office"
 	"opsbuild-3.office"
 
-### Getting a complete object
+#### Getting a complete object
 
 	$ rtcurl $RTUSER 'https://racktables-api.example.com/object?attributes.FQDN._match=buildhost-1.datacenter' | jq '.[]'
 	{
@@ -258,7 +269,7 @@ To parse the JSON output on the CLI, I recommend the usage of [jq](http://stedol
 	  ]
 	}
 
-### Getting names and tags
+#### Getting names and tags
 
 	$ rtcurl $RTUSER 'https://racktables-api.example.com/object?attributes.FQDN._match=build' | jq '.[] | [.name,.tags]'
 	[
@@ -331,3 +342,28 @@ To parse the JSON output on the CLI, I recommend the usage of [jq](http://stedol
 	    "ParentTag.build",
 	  ]
 	]
+
+## AUTHOR
+Hannes Georg - XING AG 2013
+
+## LICENSE
+The MIT License (MIT)
+
+Copyright (c) 2013 XING AG
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
