@@ -16,4 +16,4 @@ namespace 'test' do
 
 end
 
-task :default => 'test:test'
+task :default => ['test:setup_db','test:test']
