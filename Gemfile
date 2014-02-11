@@ -1,6 +1,8 @@
-source 'http://gemcutter.org'
+source 'https://rubygems.org'
 
 gemspec
+
+gem 'sinatra', '>1.0'
 
 group :development do
   gem 'mysql2'

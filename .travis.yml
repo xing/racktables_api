@@ -1,5 +1,10 @@
 language: ruby
 rvm:
   - 1.9.3
+  - 2.0.0
+  - 2.1.0
 before_script:
   - mysql -e 'create database racktables_test;'
+env:
+  - RACKTABLES_TEST=rspec
+  - RACKTABLES_TEST=cucumber

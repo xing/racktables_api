@@ -10,7 +10,7 @@ end
 module RacktablesApi
 
   logger = Logger.new(::STDERR)
-  logger.level = Logger::DEBUG
+  logger.level = Logger::WARN
 
   if !ENV['RACKTABLES_DB']
     raise "No RACKTABLES_DB environment variable found. Please specify one."
