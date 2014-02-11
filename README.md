@@ -1,6 +1,7 @@
 # Racktables API
 
 [![Build Status](https://travis-ci.org/xing/racktables_api.png?branch=master)](https://travis-ci.org/xing/racktables_api)
+[![Coverage Status](https://coveralls.io/repos/xing/racktables_api/badge.png)](https://coveralls.io/r/xing/racktables_api)
 
 REST access to racktables objects. With this REST api you can request your racktables objects in JSON format to use them in your scripts. You can generate DNS or DHCP configs right from your Racktables data.
 

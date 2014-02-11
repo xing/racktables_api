@@ -11,3 +11,6 @@ end
 group :development_more do
   gem 'shotgun'
 end
+group :travis do
+  gem 'coveralls'
+end
