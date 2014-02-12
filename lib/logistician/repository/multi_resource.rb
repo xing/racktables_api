@@ -83,12 +83,20 @@ class Logistician
     def get( ctx, env )
       pager = Paginator.new(ctx, env)
       query = pager.read(env['addressive'].variables['query'] || {})
-      query = Utils.delinearize_query(query)
+      begin
+        query = Utils.delinearize_query(query)
+      rescue ArgumentError
+        return bad_request(ctx,'error'=>'Invalid query')
+      end
       return export( ctx, pager.apply(repository.query(ctx, query)), pager.header )
     end
 
     def patch( ctx, env )
-      query = Utils.delinearize_query(env['addressive'].variables['query'])
+      begin
+        query = Utils.delinearize_query(env['addressive'].variables['query'])
+      rescue ArgumentError
+        return bad_request(ctx,'error'=>'Invalid query')
+      end
       objects = repository.query(ctx, query)
       input = MultiJson.load(env['rack.input'])
       ups = 0

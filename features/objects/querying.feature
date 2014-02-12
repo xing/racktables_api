@@ -150,6 +150,40 @@ Feature: Object querying
       ]
       """
 
+  Scenario: A simple search for null
+    The null value is somewhat special as it cannot be encoded in urls 
+    properly. To check for null you can use "?<property>._is=_null".
+    Given I have POSTed this to "/object":
+      """json
+      {
+        "name": "foo",
+        "type": "VM",
+        "asset_no": null
+      }
+      """
+    And I have also POSTed this to "/object":
+      """json
+      {
+        "name": "bar",
+        "type": "VM",
+        "asset_no": "bar"
+      }
+      """
+    When I request "/object?asset_no._is=_null"
+    Then the response should be like:
+      """json-like
+      [
+        {
+           "name"   : "foo",
+           "type"   : "VM",
+           "asset_no" : null,
+           ...
+        }
+      ]
+      """
+
+
+
 
   Scenario: Updating attributes
     Given I have POSTed this to "/object":
