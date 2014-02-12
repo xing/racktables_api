@@ -288,6 +288,7 @@ class Logistician
       macros[:to_many] = ToManyMacro
       macros[:to_one] = ToOneMacro
       macros[:enum] = EnumMacro
+      macros[:null] = NullMacro
 
       attr_reader :repository, :context
 

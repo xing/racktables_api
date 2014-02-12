@@ -1,15 +1,18 @@
 ENV['RACK_ENV'] = 'testing'
 
 require 'bundler/setup'
+require 'simplecov'
+require 'coveralls'
+SimpleCov.start do
+  formatter SimpleCov::Formatter::MultiFormatter[
+    SimpleCov::Formatter::HTMLFormatter,
+    Coveralls::SimpleCov::Formatter
+  ]
+  add_filter "/spec"
+  maximum_coverage_drop 5
+end
 require 'racktables_api'
 require 'rspec'
-require 'simplecov'
-begin
-  require 'coveralls'
-  Coveralls.wear!
-rescue LoadError
-  SimpleCov.start
-end
 
 RSpec.configure do |config|
 
