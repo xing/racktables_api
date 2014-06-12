@@ -220,3 +220,48 @@ Feature: Object querying
         }
       ]
       """
+
+  Scenario: Adding a port
+    Given I have POSTed this to "/object":
+      """json
+      {
+        "name": "foo",
+        "type": "VM"
+      }
+      """
+    When I PATCH this to "/object?name=foo":
+      """json
+      {
+        "ports":
+        {
+          "_push":
+          {
+            "name": "eth0",
+            "type": "1000Base-T",
+            "l2address": "005056bc449b"
+          }
+        }
+      }
+      """
+    And I request "/object"
+    Then the response should be like:
+      """json-like
+      [
+        {
+           "name"   : "foo",
+           "type"   : "VM",
+           "ports" : [
+              {
+                "name": "eth0",
+                "type": "1000Base-T",
+                "l2address": "005056bc449b",
+                ...
+              }
+            ],
+            ...
+        }
+      ]
+      """
+
+
+
