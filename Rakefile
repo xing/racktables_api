@@ -4,7 +4,7 @@ namespace 'test' do
 
   desc 'creates a database suitable for testing'
   task 'setup_db' do
-    sh "mysql --user=travis --database=racktables_test -h 127.0.0.1 < #{File.expand_path('spec/testdata/fresh_installed.sql')}"
+    sh "mysql --user=travis --database=racktables_test -h 127.0.0.1 < #{File.expand_path('spec/testdata/fresh_installed_0_20_8.sql')}"
   end
 
   desc 'run cucumber'
