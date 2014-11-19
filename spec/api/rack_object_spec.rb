@@ -17,15 +17,15 @@ module ObjectFixtures
     DB << "INSERT INTO TagStorage (tag_id, entity_id, entity_realm) VALUES (1,1,'object');"
     DB << "INSERT INTO TagStorage (tag_id, entity_id, entity_realm) VALUES (5,1,'object');"
     DB << "INSERT INTO RackSpace (rack_id, object_id) VALUES (3, 1);"
-  
+
     DB << "INSERT INTO Attribute VALUES (50001, 'uint', 'attr');"
-    DB << "INSERT INTO AttributeMap VALUES (4, 50001, NULL);"
+    DB << "INSERT INTO AttributeMap VALUES (4, 50001, NULL, NULL);"
     DB << "INSERT INTO AttributeValue (object_id, object_tid, attr_id, uint_value) VALUES (2, 4, 50001, 10);"
-  
+
     DB << "INSERT INTO Attribute VALUES (50002, 'dict', 'bttr');"
-    DB << "INSERT INTO AttributeMap VALUES (4, 50002, 29);" # 29 is the yes/no dict
+    DB << "INSERT INTO AttributeMap VALUES (4, 50002, 29, NULL);" # 29 is the yes/no dict
     DB << "INSERT INTO AttributeValue (object_id, object_tid, attr_id, uint_value) VALUES (2, 4, 50002, 1500);" # 1500 is yes
- 
+
     DB << "INSERT INTO IPv4Allocation VALUES (2, 1, 'eth0', 'regular');"
     DB << "INSERT INTO IPv6Allocation VALUES (2, '1234', 'eth0', 'regular');"
   end
