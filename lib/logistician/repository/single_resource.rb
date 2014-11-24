@@ -29,7 +29,7 @@ class Logistician
       objects = repository.query(ctx, query)
       input = MultiJson.load(env['rack.input'])
       ups = 0
-      DB.transaction(:rollback=>:always) do
+      DB.transaction do
         updates = repository.single_update(ctx, input, objects )
         ups = updates.do!
       end
