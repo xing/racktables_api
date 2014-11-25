@@ -9,25 +9,25 @@ end
 
 module RacktablesApi
 
-  logger = Logger.new(::STDERR)
-  logger.level = Logger::WARN
+  @logger = Logger.new(::STDERR)
+  @logger.level = Logger::WARN
 
   if !ENV['RACKTABLES_DB']
     raise "No RACKTABLES_DB environment variable found. Please specify one."
   end
 
   @db = Sequel.connect( ENV['RACKTABLES_DB'] )
-  @db.logger = logger
+  @db.logger = @logger
 
   if ENV['RACKTABLES_META_DB']
     @meta_db = Sequel.connect( ENV['RACKTABLES_META_DB'] )
-    @meta_db.logger = logger
+    @meta_db.logger = @logger
   else
     @meta_db = @db
   end
 
 class << self
-  attr :db, :meta_db
+  attr :db, :meta_db, :logger
 
   def to_app
     builder.to_app
@@ -74,7 +74,7 @@ class << self
 
         edge :object do
 
-          app API[Model::RackObject], rewrite: ->(spec){ 
+          app API[Model::RackObject], rewrite: ->(spec){
             spec.template = URITemplate.new('/object'+spec.template.to_s)
             spec
           }
@@ -85,7 +85,7 @@ class << self
 
         edge :rack do
 
-          app API[Model::Rack], rewrite: ->(spec){ 
+          app API[Model::Rack], rewrite: ->(spec){
             spec.template = URITemplate.new('/rack'+spec.template.to_s)
             spec
           }
@@ -96,7 +96,7 @@ class << self
 
         edge :port do
 
-          app API[Model::Port], rewrite: ->(spec){ 
+          app API[Model::Port], rewrite: ->(spec){
             spec.template = URITemplate.new('/port'+spec.template.to_s)
             spec
           }
@@ -107,7 +107,7 @@ class << self
 
         edge :vlan do
 
-          app API[Model::VLan], rewrite: ->(spec){ 
+          app API[Model::VLan], rewrite: ->(spec){
             spec.template = URITemplate.new('/vlan'+spec.template.to_s)
             spec
           }
@@ -118,7 +118,7 @@ class << self
 
         edge :network do
 
-          app API[Model::Network], rewrite: ->(spec){ 
+          app API[Model::Network], rewrite: ->(spec){
             spec.template = URITemplate.new('/network'+spec.template.to_s)
             spec
           }
@@ -134,7 +134,7 @@ class << self
 
         edge :object do
 
-          app API[Model::RackObject], rewrite: ->(spec){ 
+          app API[Model::RackObject], rewrite: ->(spec){
             spec.template = URITemplate.new('/v19.1/objects'+spec.template.to_s)
             spec
           }
@@ -145,7 +145,7 @@ class << self
 
         edge :rack do
 
-          app API[Model::Rack], rewrite: ->(spec){ 
+          app API[Model::Rack], rewrite: ->(spec){
             spec.template = URITemplate.new('/v19.1/racks'+spec.template.to_s)
             spec
           }
@@ -156,7 +156,7 @@ class << self
 
         edge :port do
 
-          app API[Model::Port], rewrite: ->(spec){ 
+          app API[Model::Port], rewrite: ->(spec){
             spec.template = URITemplate.new('/v19.1/ports'+spec.template.to_s)
             spec
           }
@@ -168,7 +168,7 @@ class << self
 
         edge :vlan do
 
-          app API[Model::VLan], rewrite: ->(spec){ 
+          app API[Model::VLan], rewrite: ->(spec){
             spec.template = URITemplate.new('/v19.1/vlans'+spec.template.to_s)
             spec
           }
@@ -184,7 +184,7 @@ class << self
       router.add( *node_1.edges.values )
 
       map '/_meta' do
-        run Meta 
+        run Meta
       end
 
       run router

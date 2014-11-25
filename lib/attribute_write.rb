@@ -19,10 +19,13 @@ class AttributeWrite
           when 'float'
             attribute[:float_value] = value
           when 'dict'
-            # D'oh
             dict = map.chapter_dataset.filter(:dict_value => value ).first
             if dict.nil?
-              raise "Bad value!!"
+              chapter_id = map.chapter_dataset.first.chapter_id
+              RacktablesApi.logger.warn("Adding non existing dict_value #{value} to Dictionary chapter #{chapter_id}")
+              dict = Model::DictionaryValue.new(:chapter_id => chapter_id,
+                                                :dict_value => value,
+                                                :dict_sticky => "yes").save
             end
             attribute[:uint_value] = dict.dict_key
           end
