@@ -27,13 +27,23 @@ Somewhat cleaner
     gem 'unicorn' # or puma or none if you use passenger
     ```
 
-- Write a config.ru like this:
+- Write a config.ru like this if you want to use the LDAPAuthenticator:
 
     ```ruby
     require 'bundler/setup'
     require 'racktables_api'
     require 'ldap_authenticator'
     use LDAPAuthenticator, :host => '<your ldap host>', :domain => '<your domain>'
+    run RacktablesApi.to_app
+    ```
+
+- Write a config.ru like this if you want to use the RacktablesAuthenticator:
+
+    ```ruby
+    require 'bundler/setup'
+    require 'racktables_api'
+    require 'racktables_authenticator'
+    use RacktablesAuthenticator
     run RacktablesApi.to_app
     ```
 
