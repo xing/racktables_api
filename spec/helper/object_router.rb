@@ -17,6 +17,10 @@ module ObjectRouter
 
           edge :object
 
+          edge :port do
+            uri :single, '/port/{id}'
+          end
+
           edge :rack do
 
             uri :single, '/rack/{id}'

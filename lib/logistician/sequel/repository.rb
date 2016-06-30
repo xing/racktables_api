@@ -150,6 +150,11 @@ class Logistician
             return super
           elsif repository.schema.key? key
             column =  repository.schema[key]
+            if column[:allow_null]
+              query do
+                on( as => macro(:null){|op,value| ::Sequel::SQL::BooleanExpression.new(op, key, value)} )
+              end
+            end
             case(column[:type])
             when :integer, :float, :string
               if queryable

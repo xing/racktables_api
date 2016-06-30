@@ -16,7 +16,9 @@ class Logistician
       hash.each do |key,value|
         prefix, rest = key.split('.',2)
         if rest
-          result[prefix] = {} unless result.kind_of? Hash
+          unless result[prefix].kind_of? Hash
+            raise ArgumentError, "Failed to delinearize #{prefix}"
+          end
           result[prefix][rest] = value
         else
           result[prefix] = value

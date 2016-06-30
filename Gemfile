@@ -1,6 +1,8 @@
-source 'http://gemcutter.org'
+source 'https://rubygems.org'
 
 gemspec
+
+gem 'sinatra', '>1.0'
 
 group :development do
   gem 'mysql'
@@ -8,4 +10,7 @@ group :development do
 end
 group :development_more do
   gem 'shotgun'
+end
+group :travis do
+  gem 'coveralls'
 end

@@ -3,7 +3,7 @@ require 'slim'
 class Meta < Sinatra::Base
 
   enable :inline_templates
-  set :protection, reaction: :warn
+  set :protection, reaction: :report
 
   def racktables_user
     if session.key?('user')

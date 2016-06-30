@@ -395,6 +395,12 @@ describe "rack object api" do
 
     end
 
+    it "should return a 400 for overlapping queries" do
+      use_fixture_set
+      resp = mock_get('/object?a=a&a.b=b')
+      expect(resp).to be_client_error
+    end
+
   end
 
   describe "creation" do
