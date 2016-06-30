@@ -27,7 +27,7 @@ API19 = Logistician::Repository::Domain.new do
     rewrite {|ds| ds.to_s }
   end
 
-  export IPAddress::IPv4 do 
+  export IPAddress::IPv4 do
 
     publish :__type__ do 'IPAddress' end
     publish :address do |ip| ip.to_s end
@@ -37,7 +37,7 @@ API19 = Logistician::Repository::Domain.new do
 
   end
 
-  export IPAddress::IPv6 do 
+  export IPAddress::IPv6 do
 
     publish :__type__ do 'IPAddress' end
     publish :address do |ip| ip.to_s end
@@ -67,6 +67,8 @@ API19 = Logistician::Repository::Domain.new do
     publish :spaces
     publish :ports
     publish :ips
+    publish :parent_objects, export: { as_link: true }
+    publish :child_objects, as: 'child_objects', export: { as_link: true }
 
     export do
 
@@ -124,7 +126,7 @@ API19 = Logistician::Repository::Domain.new do
       # keep this for legacy
       on 'tag' => macro(:string){|op, value|
         many_to_many_to_sql(model.association_reflection(:tags), Model::Tag.filter(::Sequel::SQL::BooleanExpression.new(op, :tag, value)).descendants(:with_self=>true))
-      } 
+      }
 
       on 'attributes' => {String => Object} do |name, query|
         type = Model::Attribute::Type[:name => name]
@@ -256,7 +258,7 @@ API19 = Logistician::Repository::Domain.new do
 
       on 'object' => /\A\/object\/(\d+)\z/ do |match|
         filter( :object_id => match[1].to_i )
-      end 
+      end
 
       on 'remote_port' => /\A\/port\/(\d+)\z/ do |match|
         subresult = domain['port'].query(context, subquery)
@@ -360,7 +362,7 @@ API19 = Logistician::Repository::Domain.new do
 
     export :using => Logistician::Exporter::Rewrite do
 
-      rewrite{|object| 
+      rewrite{|object|
         [ *object.ancestors.reverse.map(&:tag), object.tag ].join('.')
       }
 
@@ -380,7 +382,7 @@ API19 = Logistician::Repository::Domain.new do
 
     export :using => Logistician::Exporter::Rewrite do
 
-      rewrite{|object| 
+      rewrite{|object|
         object.dict_value
       }
 
@@ -455,11 +457,11 @@ API19 = Logistician::Repository::Domain.new do
     publish :domain
     publish :vlan_type, as: 'type'
     publish :vlan_descr, as: 'description'
-    publish :networks, 
+    publish :networks,
       queryable: false,
       export: ->(vlan){
-          if vlan.associations.key? :networks 
-            encode(vlan.networks) 
+          if vlan.associations.key? :networks
+            encode(vlan.networks)
           else
             reference( context[:addressive].uri(:api, :network, :default, query: {'vlan.id' => vlan.vlan_id,'vlan.domain' => vlan.domain.to_s}).to_s )
           end
@@ -507,7 +509,7 @@ API19 = Logistician::Repository::Domain.new do
 
     export :using => Logistician::Exporter::Rewrite do
 
-      rewrite{|object| 
+      rewrite{|object|
         object.description
       }
 

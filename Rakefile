@@ -9,7 +9,7 @@ namespace 'test' do
 
   desc 'runs the tests'
   task 'test' do
-    sh "env 'RACKTABLES_DB=mysql2://travis@127.0.0.1/racktables_test?encoding=utf8' rspec"
+    sh "env 'RACKTABLES_DB=mysql://travis@127.0.0.1/racktables_test?encoding=utf8' rspec"
   end
 
   task :default => 'test:test'

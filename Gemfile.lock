@@ -39,7 +39,7 @@ GEM
     ipaddress (0.8.0)
     multi_json (1.8.2)
     multi_test (0.0.2)
-    mysql2 (0.3.13)
+    mysql (2.9.1)
     net-ldap (0.3.1)
     parslet (1.5.0)
       blankslate (~> 2.0)
@@ -80,9 +80,12 @@ PLATFORMS
 DEPENDENCIES
   cucumber
   json_like!
-  mysql2
+  mysql
   racktables_api!
   rake
   rspec
   shotgun
   simplecov
+
+BUNDLED WITH
+   1.11.2
