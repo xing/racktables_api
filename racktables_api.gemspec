@@ -24,10 +24,10 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'sinatra'
 
   # ldap authentication:
-  gem.add_dependency 'net-ldap'
+  gem.add_dependency 'net-ldap', ['< 0.9.0']
 
   gem.add_development_dependency "rake"
-  gem.add_development_dependency "rspec"
+  gem.add_development_dependency "rspec", ['< 3.0']
   gem.add_development_dependency "simplecov"
   gem.add_development_dependency 'cucumber'
 end
