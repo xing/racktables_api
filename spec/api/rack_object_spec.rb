@@ -17,15 +17,15 @@ module ObjectFixtures
     DB << "INSERT INTO TagStorage (tag_id, entity_id, entity_realm) VALUES (1,1,'object');"
     DB << "INSERT INTO TagStorage (tag_id, entity_id, entity_realm) VALUES (5,1,'object');"
     DB << "INSERT INTO RackSpace (rack_id, object_id) VALUES (3, 1);"
-  
+
     DB << "INSERT INTO Attribute VALUES (50001, 'uint', 'attr');"
     DB << "INSERT INTO AttributeMap VALUES (4, 50001, NULL);"
     DB << "INSERT INTO AttributeValue (object_id, object_tid, attr_id, uint_value) VALUES (2, 4, 50001, 10);"
-  
+
     DB << "INSERT INTO Attribute VALUES (50002, 'dict', 'bttr');"
     DB << "INSERT INTO AttributeMap VALUES (4, 50002, 29);" # 29 is the yes/no dict
     DB << "INSERT INTO AttributeValue (object_id, object_tid, attr_id, uint_value) VALUES (2, 4, 50002, 1500);" # 1500 is yes
- 
+
     DB << "INSERT INTO IPv4Allocation VALUES (2, 1, 'eth0', 'regular');"
     DB << "INSERT INTO IPv6Allocation VALUES (2, '1234', 'eth0', 'regular');"
   end
@@ -49,14 +49,16 @@ describe "rack object api" do
           "name"=>"foo",
           "label"=>"bar",
           "asset_no"=>"baz",
+          "type"=>"Modem",
           "tags"=>['baz',"buz.zub.zub2"],
-          "has_problems"=>false,
           "rack"=>{'__ref__'=>'/rack/3'},
           "spaces"=>[{"unit_no"=>0, "atom"=>"interior"}],
-          "attributes"=>{},
           "ports"=>[],
           "ips"=>[],
-          "type"=>"Modem",
+          "parent_objects"=>[],
+          "child_objects"=>[],
+          "has_problems"=>false,
+          "attributes"=>{},
           "__self__"=>"/object/1"
         }]
     end
@@ -65,19 +67,21 @@ describe "rack object api" do
       use_fixture_set
       resp = mock_get('/object?tags._contains=baz')
       resp.should be_ok
-      MultiJson.load(resp.body).should == [
-        { "id"=>1,
+      MultiJson.load(resp.body).should == [{
+          "id"=>1,
           "name"=>"foo",
           "label"=>"bar",
           "asset_no"=>"baz",
+          "type"=>"Modem",
           "tags"=>['baz','buz.zub.zub2'],
-          "has_problems"=>false,
           "rack"=>{'__ref__'=>'/rack/3'},
           "spaces"=>[{"unit_no"=>0, "atom"=>"interior"}],
-          "attributes"=>{},
           "ports"=>[],
           "ips"=>[],
-          "type"=>"Modem",
+          "parent_objects"=>[],
+          "child_objects"=>[],
+          "has_problems"=>false,
+          "attributes"=>{},
           "__self__"=>"/object/1"
         }]
     end
@@ -210,6 +214,8 @@ describe "rack object api" do
               "address"=>"31323334000000000000000000000000"
             }
           ],
+          "parent_objects"=>[],
+          "child_objects"=>[],
           "has_problems"=>false,
           "attributes"=>{"attr"=>10, "bttr"=>"No"},
           "__self__"=>"/object/2"
